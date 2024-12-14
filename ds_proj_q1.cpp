@@ -33,7 +33,9 @@ struct suffix_tree {
                             break;
                         }
                         else if (r->children[index]->ch == s[j]) {
-                            r = r->children[index];
+                            if (j < size - 1) {
+                                r = r->children[index];
+                            }
                             flag = true;
                             break;
                         } else {

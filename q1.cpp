@@ -21,10 +21,9 @@ struct suffix_tree {
     }
 
     void construct_tree(string s) {
-        node* r;
         int size = s.size();
         for (int i = 0; i < size; i++) {
-            r = root;
+            node* r = root;
             for (int j = i; j < size; j++) {
                 if (r->children.find(s[j]) == r->children.end()) {
                     add_child(s[j], i, r);
@@ -44,6 +43,7 @@ struct suffix_tree {
 
     void query(string sub_string) {
         node* current_node = root;
+
         for (char ch : sub_string) {
             if (current_node->children.find(ch) == current_node->children.end()) {
                 cout << -1 << '\n';
@@ -52,16 +52,20 @@ struct suffix_tree {
             current_node = current_node->children[ch];
         }
 
-        for (int index : current_node->values) {
-            cout << index << " ";
+        if (!current_node->values.empty()) {
+            for (int index : current_node->values) {
+                cout << index << " ";
+            }
+            cout << '\n';
+        } else {
+            cout << -1 << '\n';
         }
-        cout << '\n';
     }
 };
 
 int main() {
     string s;
-    getline(cin, s);
+    cin >> s;
     s += '$';
 
     suffix_tree tree;
@@ -69,11 +73,10 @@ int main() {
 
     int n;
     cin >> n;
-    cin.ignore();
 
     for (int i = 0; i < n; i++) {
         string sub_string;
-        getline(cin, sub_string);
+        cin >> sub_string;
         tree.query(sub_string);
     }
 
